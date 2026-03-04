@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Add School to Category - ISGA{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h4><i class="fas fa-school"></i> Add School to {{ category.name }}</h4></div>
+            <div class="card-body p-4">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        <label class="form-label">{{ form.school_id.label }}</label>
+                        {{ form.school_id(class="form-select") }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">{{ form.num_athletes.label }}</label>
+                        {{ form.num_athletes(class="form-control") }}
+                        <small class="text-muted">Number of athlete slots (you can add more later)</small>
+                    </div>
+                    {{ form.submit(class="btn btn-isga w-100") }}
+                </form>
+                <p class="text-muted mt-3 text-center">
+                    School not listed? <a href="{{ url_for('manage_schools') }}">Register it first</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

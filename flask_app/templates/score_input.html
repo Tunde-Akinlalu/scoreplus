@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Score Input - {{ school_group.school.name }} - ISGA{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 style="color: var(--isga-purple);">Score Input</h2>
+        <h4 class="text-muted">{{ school_group.school.name }} — {{ category.name }}</h4>
+    </div>
+    <form method="POST" action="{{ url_for('add_athlete_row', cat_id=category.id, sg_id=school_group.id) }}">
+        <button type="submit" class="btn btn-isga-cyan"><i class="fas fa-plus"></i> Add Athlete Row</button>
+    </form>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            <div class="table-responsive">
+                <table class="table table-hover" id="scoreTable">
+                    <thead>
+                        <tr>
+                            <th style="width:60px">No</th>
+                            <th style="width:180px">Name</th>
+                            <th>Set Vault</th>
+                            <th>Vol Vault</th>
+                            <th>Set Floor</th>
+                            <th>Vol Floor</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for athlete in athletes %}
+                        <tr>
+                            <td>
+                                <span class="badge bg-secondary">{{ athlete.number }}</span>
+                            </td>
+                            <td>
+                                <input type="text" name="athlete_{{ athlete.id }}_name"
+                                       value="{{ athlete.name }}" class="form-control form-control-sm"
+                                       placeholder="Athlete name">
+                            </td>
+                            <td>
+                                <input type="number" step="0.05" min="0" max="10"
+                                       name="athlete_{{ athlete.id }}_set_vault"
+                                       value="{{ athlete.scores.set_vault if athlete.scores else 0 }}"
+                                       class="form-control form-control-sm score-input text-center"
+                                       oninput="calcRow(this)">
+                            </td>
+                            <td>
+                                <input type="number" step="0.05" min="0" max="10"
+                                       name="athlete_{{ athlete.id }}_vol_vault"
+                                       value="{{ athlete.scores.vol_vault if athlete.scores else 0 }}"
+                                       class="form-control form-control-sm score-input text-center"
+                                       oninput="calcRow(this)">
+                            </td>
+                            <td>
+                                <input type="number" step="0.05" min="0" max="10"
+                                       name="athlete_{{ athlete.id }}_set_floor"
+                                       value="{{ athlete.scores.set_floor if athlete.scores else 0 }}"
+                                       class="form-control form-control-sm score-input text-center"
+                                       oninput="calcRow(this)">
+                            </td>
+                            <td>
+                                <input type="number" step="0.05" min="0" max="10"
+                                       name="athlete_{{ athlete.id }}_vol_floor"
+                                       value="{{ athlete.scores.vol_floor if athlete.scores else 0 }}"
+                                       class="form-control form-control-sm score-input text-center"
+                                       oninput="calcRow(this)">
+                            </td>
+                            <td>
+                                <strong class="row-total">
+                                    {{ '%.2f'|format(athlete.scores.individual_total) if athlete.scores else '0.00' }}
+                                </strong>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex gap-2 mt-3">
+                <button type="submit" class="btn btn-isga btn-lg flex-fill">
+                    <i class="fas fa-save"></i> Save All Scores
+                </button>
+                <a href="{{ url_for('view_category', cat_id=category.id) }}" class="btn btn-outline-secondary btn-lg">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function calcRow(input) {
+    const row = input.closest('tr');
+    const inputs = row.querySelectorAll('.score-input');
+    let total = 0;
+    inputs.forEach(inp => { total += parseFloat(inp.value) || 0; });
+    row.querySelector('.row-total').textContent = total.toFixed(2);
+}
+</script>
+{% endblock %}

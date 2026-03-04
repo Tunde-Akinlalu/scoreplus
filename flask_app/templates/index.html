@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}ISGA Gymnastics - Home{% endblock %}
+{% block content %}
+<div class="hero-section text-center mb-5" style="margin: -1.5rem -12px 2rem; padding: 60px 20px; border-radius: 0 0 20px 20px;">
+    <h1><i class="fas fa-medal"></i> ISGA Gymnastics Scoring System</h1>
+    <p class="lead mt-3">Independent Schools Gymnastics Association<br>2 Piece, 4 Piece, 5 Piece — Girls & Boys</p>
+    {% if current_user.is_authenticated %}
+    <a href="{{ url_for('create_event') }}" class="btn btn-light btn-lg mt-3"><i class="fas fa-plus-circle"></i> Create New Event</a>
+    {% else %}
+    <a href="{{ url_for('login') }}" class="btn btn-light btn-lg mt-3"><i class="fas fa-sign-in-alt"></i> Login to Get Started</a>
+    {% endif %}
+</div>
+
+<h2 class="mb-4" style="color: var(--isga-purple);"><i class="fas fa-trophy"></i> Events</h2>
+{% if events %}
+<div class="row">
+    {% for event in events %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-calendar-alt"></i> {{ event.name }}</h5>
+            </div>
+            <div class="card-body">
+                {% if event.date %}<p class="text-muted"><i class="fas fa-clock"></i> {{ event.date.strftime('%d %B %Y') }}</p>{% endif %}
+                <p><strong>{{ event.categories|length }}</strong> categories</p>
+                <a href="{{ url_for('view_event', event_id=event.id) }}" class="btn btn-isga w-100">
+                    <i class="fas fa-eye"></i> View Event
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center text-muted py-5">
+    <i class="fas fa-inbox fa-3x mb-3"></i>
+    <p>No events yet. {% if current_user.is_authenticated %}Create one to get started!{% else %}Login to create events.{% endif %}</p>
+</div>
+{% endif %}
+{% endblock %}

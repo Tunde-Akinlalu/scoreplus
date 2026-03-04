@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Login - ISGA{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card mt-5">
+            <div class="card-header text-center">
+                <h4><i class="fas fa-sign-in-alt"></i> Login</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        <label class="form-label">{{ form.username.label }}</label>
+                        {{ form.username(class="form-control", placeholder="Enter username") }}
+                        {% for error in form.username.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">{{ form.password.label }}</label>
+                        {{ form.password(class="form-control", placeholder="Enter password") }}
+                        {% for error in form.password.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+                    </div>
+                    {{ form.submit(class="btn btn-isga w-100 btn-lg") }}
+                </form>
+                <p class="text-center mt-3">Don't have an account? <a href="{{ url_for('register') }}" style="color: var(--isga-purple);">Register here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

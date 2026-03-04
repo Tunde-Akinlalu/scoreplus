@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Schools - ISGA{% endblock %}
+{% block content %}
+<h2 class="mb-4" style="color: var(--isga-purple);"><i class="fas fa-school"></i> Manage Schools</h2>
+<div class="row">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header"><h5 class="mb-0">Add New School</h5></div>
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="input-group">
+                        {{ form.name(class="form-control", placeholder="School name") }}
+                        {{ form.submit(class="btn btn-isga") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header"><h5 class="mb-0">Registered Schools ({{ schools|length }})</h5></div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    {% for school in schools %}
+                    <li class="list-group-item"><i class="fas fa-school text-muted me-2"></i> {{ school.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
