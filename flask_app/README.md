@@ -38,7 +38,7 @@ pip install -r requirements.txt
 
 ### 5. Configure Environment
 ```bash
-cp .env.example .env
+cp .env .env
 # Edit .env with your MySQL credentials
 ```
 
