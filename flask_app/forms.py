@@ -27,7 +27,7 @@ class EventForm(FlaskForm):
 
 class CategoryForm(FlaskForm):
     name = StringField('Category Name', validators=[DataRequired(), Length(max=100)])
-    piece_type = SelectField('Type', choices=[('5P', '5 Piece'), ('4P', '4 Piece')])
+    piece_type = SelectField('Type', choices=[('5P', '5 Piece'), ('4P', '4 Piece'), ('2P', '2 Piece')])
     submit = SubmitField('Add Category')
 
 
