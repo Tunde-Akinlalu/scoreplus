@@ -502,4 +502,4 @@ if __name__ == '__main__':
           #  admin.set_password('admin123')
            # db.session.add(admin)
             #db.session.commit()
-    app.run(debug=True, port=5000)
+    app.run(debug=False, port=5000)
