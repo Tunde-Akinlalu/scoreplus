@@ -2,6 +2,8 @@
 ISGA Gymnastics Scoring System
 Flask Application - Compatible with PyCharm IDE
 """
+import pymysql
+pymysql.install_as_MySQLdb()
 import io
 from datetime import datetime
 from functools import wraps
