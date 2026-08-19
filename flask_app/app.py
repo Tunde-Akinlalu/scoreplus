@@ -496,12 +496,16 @@ def init_db():
     print('Database initialized.')
 
 
+# Ensure database tables exist on startup (for Gunicorn/Render)
+with app.app_context():
+    db.create_all()
+    # Optional: Create admin if not exists (safe to run every time)
+    if not User.query.filter_by(username='admin').first():
+        admin = User(username='admin', email='admin@isga.org', role='admin')
+        admin.set_password('admin123')
+        db.session.add(admin)
+        db.session.commit()
+        print("Admin user created: admin / admin123")
+
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-        #if not User.query.filter_by(username='admin').first():
-         #   admin = User(username='admin', email='admin@isga.org', role='admin')
-          #  admin.set_password('admin123')
-           # db.session.add(admin)
-            #db.session.commit()
     app.run(debug=False, port=5000)
