@@ -13,7 +13,7 @@ from flask import (Flask, render_template, redirect, url_for, flash, request,
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_migrate import Migrate
 
-from config import Config
+from .config import Config
 from models import db, User, Event, Category, School, SchoolGroup, Athlete, Score
 from forms import (LoginForm, RegistrationForm, EventForm, CategoryForm,
                    SchoolForm, AthleteForm, ScoreForm, AddSchoolToCategory)
